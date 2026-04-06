@@ -1,0 +1,27 @@
+{
+  "name": "devios",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "14.2.3",
+    "react": "^18",
+    "react-dom": "^18",
+    "@supabase/supabase-js": "^2.43.1",
+    "stripe": "^16.0.0",
+    "jspdf": "^2.5.1",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10",
+    "postcss": "^8",
+    "tailwindcss": "^3",
+    "@types/node": "^20",
+    "@types/react": "^18"
+  }
+}

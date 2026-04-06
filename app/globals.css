@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:         #F7F4EF;
+  --surface:    #FFFFFF;
+  --surface-alt:#F0EDE7;
+  --border:     #E2DDD6;
+  --navy:       #1B2D4F;
+  --navy-light: #2A4070;
+  --orange:     #E8650A;
+  --orange-l:   #FFF0E6;
+  --orange-b:   #FFDFC7;
+  --green:      #2D7D46;
+  --green-l:    #EBF7EE;
+  --red:        #C0392B;
+  --red-l:      #FDECEA;
+  --text:       #1B2D4F;
+  --text-mid:   #4A5568;
+  --text-soft:  #8A8F9A;
+  --amber:      #D97706;
+  --amber-l:    #FFFBEB;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+textarea:focus, input:focus { outline: none; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── DEVIOS GLOBAL STYLES ── */
+
+/* Anti-zoom iOS sur les inputs */
+input, textarea, select {
+  font-size: 16px !important;
+}
+
+/* Scrollbar discrète */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #E0DDD6; border-radius: 99px; }
+
+/* Tap highlight supprimé sur mobile */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* Sélection texte orange */
+::selection { background: rgba(232,101,10,0.2); color: #1B2D4F; }
+
+/* Focus visible accessible */
+*:focus-visible {
+  outline: 2px solid #E8650A;
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fadeIn { animation: fadeIn 0.2s ease-out; }
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}

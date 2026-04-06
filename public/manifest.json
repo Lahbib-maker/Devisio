@@ -1,0 +1,56 @@
+{
+  "name": "Devios — Devis pour artisans",
+  "short_name": "Devios",
+  "description": "Générez des devis professionnels en 30 secondes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1B2D4F",
+  "theme_color": "#1B2D4F",
+  "orientation": "portrait",
+  "lang": "fr",
+  "scope": "/",
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nouveau devis",
+      "short_name": "Devis",
+      "description": "Créer un nouveau devis",
+      "url": "/?tab=0",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mes devis",
+      "short_name": "Liste",
+      "description": "Voir mes devis",
+      "url": "/?tab=1",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

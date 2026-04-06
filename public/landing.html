@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devios — Devis IA pour artisans en 30 secondes</title>
+  <meta name="description" content="Générez des devis professionnels et légalement conformes en 30 secondes grâce à l'IA. Pour tous les artisans du bâtiment. Essai gratuit 14 jours.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #1B2D4F;
+      --navy2:   #243d6a;
+      --orange:  #E8650A;
+      --orangeL: #FFF0E6;
+      --orangeB: #FFDFC7;
+      --bg:      #F7F4EF;
+      --bgAlt:   #EDEAE3;
+      --white:   #FFFFFF;
+      --border:  #DDD9D1;
+      --text:    #1B2D4F;
+      --textMid: #4A5568;
+      --textSoft:#8A8F9A;
+      --green:   #2D7D46;
+      --greenL:  #EBF7EE;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(247,244,239,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-icon { font-size: 20px; }
+    .logo-text { font-size: 18px; font-weight: 800; color: var(--navy); letter-spacing: -0.3px; }
+    .logo-text span { color: var(--orange); }
+    .nav-cta {
+      background: var(--navy); color: #fff;
+      padding: 8px 18px; border-radius: 10px;
+      font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--navy2); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      padding: 100px 20px 60px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,101,10,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--orangeL); border: 1px solid var(--orangeB);
+      border-radius: 99px; padding: 5px 14px;
+      font-size: 12px; font-weight: 700; color: var(--orange);
+      margin-bottom: 24px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 9vw, 58px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--navy);
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      max-width: 600px;
+      animation: fadeUp 0.5s 0.1s ease both;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange);
+      position: relative;
+    }
+    .hero h1 em::after {
+      content: '';
+      position: absolute; bottom: 2px; left: 0; right: 0; height: 3px;
+      background: var(--orange); border-radius: 2px; opacity: 0.4;
+    }
+
+    .hero-sub {
+      font-size: 16px; color: var(--textMid); line-height: 1.6;
+      max-width: 420px; margin-bottom: 32px;
+      animation: fadeUp 0.5s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 340px;
+      animation: fadeUp 0.5s 0.3s ease both;
+    }
+    .btn-primary {
+      display: block; width: 100%;
+      background: var(--navy); color: #fff;
+      padding: 16px 24px; border-radius: 14px;
+      font-size: 15px; font-weight: 800;
+      text-decoration: none; text-align: center;
+      box-shadow: 0 8px 24px rgba(27,45,79,0.25);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(27,45,79,0.3); }
+    .btn-secondary {
+      display: block; width: 100%;
+      background: transparent; color: var(--navy);
+      padding: 14px 24px; border-radius: 14px;
+      font-size: 14px; font-weight: 700;
+      text-decoration: none; text-align: center;
+      border: 1.5px solid var(--border);
+      transition: border-color 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--navy); }
+
+    .hero-trust {
+      margin-top: 28px; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.5s 0.4s ease both;
+    }
+    .trust-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--textSoft); font-weight: 600; }
+
+    /* ── DEMO CARD ── */
+    .demo-section {
+      padding: 0 16px 64px;
+      display: flex; justify-content: center;
+    }
+    .demo-card {
+      background: var(--white);
+      border: 2px solid var(--navy);
+      border-radius: 20px;
+      overflow: hidden;
+      width: 100%; max-width: 420px;
+      box-shadow: 6px 6px 0 var(--navy);
+    }
+    .demo-header {
+      background: var(--navy);
+      padding: 14px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .demo-header-title { font-size: 14px; font-weight: 800; color: #fff; }
+    .demo-badge { background: var(--orange); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 99px; }
+    .demo-body { padding: 16px; }
+    .demo-input {
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 10px 12px;
+      font-size: 12px; color: var(--textMid);
+      margin-bottom: 12px; line-height: 1.5;
+      font-family: inherit;
+    }
+    .demo-generating {
+      text-align: center; padding: 12px 0;
+      font-size: 12px; color: var(--textSoft); font-style: italic;
+    }
+    .demo-line {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .demo-line:last-of-type { border-bottom: none; }
+    .demo-line-label { color: var(--textMid); flex: 1; margin-right: 8px; }
+    .demo-line-price { font-weight: 700; color: var(--navy); }
+    .demo-total {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 10px; padding-top: 10px; border-top: 2px solid var(--navy);
+    }
+    .demo-total-label { font-size: 14px; font-weight: 800; color: var(--navy); }
+    .demo-total-price { font-size: 22px; font-weight: 800; color: var(--orange); }
+    .demo-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .demo-btn {
+      flex: 1; padding: 10px 0; border-radius: 10px; font-size: 11px; font-weight: 700;
+      text-align: center; border: none; cursor: pointer; font-family: inherit;
+    }
+    .demo-btn-pdf { background: var(--bg); color: var(--navy); border: 1.5px solid var(--border); }
+    .demo-btn-send { background: var(--orange); color: #fff; }
+
+    /* ── MÉTIERS ── */
+    .metiers-section { padding: 0 16px 64px; }
+    .section-label {
+      text-align: center; font-size: 11px; font-weight: 700;
+      color: var(--textSoft); text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .metiers-grid {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+      max-width: 480px; margin: 0 auto;
+    }
+    .metier-chip {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 99px; padding: 7px 14px;
+      font-size: 12px; font-weight: 600; color: var(--textMid);
+      display: flex; align-items: center; gap: 5px;
+      transition: all 0.15s;
+    }
+    .metier-chip:hover { border-color: var(--navy); color: var(--navy); background: var(--bg); }
+
+    /* ── FEATURES ── */
+    .features-section { background: var(--navy); padding: 56px 20px; }
+    .features-section .section-label { color: rgba(255,255,255,0.4); }
+    .features-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 7vw, 38px); font-weight: 900;
+      color: #fff; text-align: center; margin-bottom: 32px;
+      line-height: 1.2;
+    }
+    .features-title span { color: var(--orange); }
+    .features-grid { display: flex; flex-direction: column; gap: 14px; max-width: 480px; margin: 0 auto; }
+    .feature-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 18px;
+      transition: background 0.15s;
+    }
+    .feature-card:hover { background: rgba(255,255,255,0.09); }
+    .feature-icon { font-size: 28px; margin-bottom: 10px; }
+    .feature-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .feature-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+    /* ── LEGAL ── */
+    .legal-section { padding: 56px 20px; }
+    .legal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 6vw, 34px); font-weight: 900;
+      color: var(--navy); margin-bottom: 8px; text-align: center;
+    }
+    .legal-sub { font-size: 14px; color: var(--textMid); text-align: center; margin-bottom: 28px; line-height: 1.5; }
+    .legal-grid { display: flex; flex-direction: column; gap: 10px; max-width: 480px; margin: 0 auto 28px; }
+    .legal-item {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .legal-check { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .legal-text { font-size: 13px; color: var(--textMid); line-height: 1.4; }
+    .legal-text strong { color: var(--navy); font-weight: 700; }
+    .legal-amende {
+      background: #FEF3C7; border: 1px solid #F59E0B;
+      border-radius: 14px; padding: 14px 16px;
+      max-width: 480px; margin: 0 auto;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .legal-amende-text { font-size: 12px; color: #92400E; line-height: 1.5; }
+
+    /* ── TEMOIGNAGES ── */
+    .temoignages-section { background: var(--bgAlt); padding: 56px 20px; }
+    .temoignages-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 6vw, 32px); font-weight: 900;
+      color: var(--navy); text-align: center; margin-bottom: 28px;
+    }
+    .temoignages-grid { display: flex; flex-direction: column; gap: 14px; max-width: 480px; margin: 0 auto; }
+    .temoignage-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 16px; padding: 18px;
+    }
+    .temoignage-stars { color: #F59E0B; font-size: 14px; margin-bottom: 10px; }
+    .temoignage-text { font-size: 14px; color: var(--textMid); line-height: 1.6; margin-bottom: 12px; font-style: italic; }
+    .temoignage-author { display: flex; align-items: center; gap: 10px; }
+    .temoignage-avatar {
+      width: 36px; height: 36px; border-radius: 99px;
+      background: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .temoignage-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .temoignage-job { font-size: 11px; color: var(--textSoft); margin-top: 1px; }
+
+    /* ── PRICING ── */
+    .pricing-section { padding: 56px 20px; }
+    .pricing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 6vw, 34px); font-weight: 900;
+      color: var(--navy); text-align: center; margin-bottom: 8px;
+    }
+    .pricing-sub { font-size: 14px; color: var(--textMid); text-align: center; margin-bottom: 28px; }
+    .pricing-grid { display: flex; flex-direction: column; gap: 14px; max-width: 480px; margin: 0 auto; }
+    .plan-card {
+      background: var(--white); border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(27,45,79,0.06);
+    }
+    .plan-card.featured {
+      border: 2px solid var(--navy);
+      box-shadow: 4px 4px 0 var(--navy);
+    }
+    .plan-header-badge {
+      background: var(--orange); padding: 6px 16px;
+      text-align: center; font-size: 12px; font-weight: 700; color: #fff;
+    }
+    .plan-body { padding: 20px; }
+    .plan-name { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 2px; }
+    .plan-desc { font-size: 12px; color: var(--textSoft); margin-bottom: 14px; }
+    .plan-price-row { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 16px; }
+    .plan-price { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--navy); line-height: 1; }
+    .plan-price.orange { color: var(--orange); }
+    .plan-price-unit { font-size: 12px; color: var(--textSoft); margin-bottom: 4px; }
+    .plan-features { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .plan-feature { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--textMid); }
+    .plan-feature-check { color: var(--green); font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+    .plan-cta {
+      display: block; width: 100%;
+      padding: 13px 0; border-radius: 12px;
+      font-size: 14px; font-weight: 800;
+      text-align: center; text-decoration: none;
+      transition: all 0.15s; border: none; cursor: pointer;
+      font-family: inherit;
+    }
+    .plan-cta.primary { background: var(--navy); color: #fff; }
+    .plan-cta.primary:hover { background: var(--navy2); }
+    .plan-cta.secondary { background: var(--bg); color: var(--navy); border: 1.5px solid var(--border); }
+
+    /* ── FAQ ── */
+    .faq-section { background: var(--bgAlt); padding: 56px 20px; }
+    .faq-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 5vw, 30px); font-weight: 900;
+      color: var(--navy); text-align: center; margin-bottom: 24px;
+    }
+    .faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 480px; margin: 0 auto; }
+    .faq-item {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px 16px; cursor: pointer;
+    }
+    .faq-q { font-size: 13px; font-weight: 700; color: var(--navy); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .faq-a { font-size: 12px; color: var(--textMid); line-height: 1.6; margin-top: 8px; display: none; }
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-arrow { transition: transform 0.2s; flex-shrink: 0; }
+
+    /* ── CTA FINAL ── */
+    .cta-section {
+      background: var(--navy); padding: 56px 20px;
+      text-align: center;
+    }
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 7vw, 38px); font-weight: 900;
+      color: #fff; margin-bottom: 12px; line-height: 1.2;
+    }
+    .cta-title span { color: var(--orange); }
+    .cta-sub { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 28px; line-height: 1.5; }
+    .cta-btn {
+      display: inline-block;
+      background: var(--orange); color: #fff;
+      padding: 16px 32px; border-radius: 14px;
+      font-size: 15px; font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(232,101,10,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(232,101,10,0.5); }
+    .cta-note { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 14px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111827; padding: 28px 20px;
+      text-align: center;
+    }
+    footer .logo-text { color: #fff; font-size: 16px; }
+    footer .logo-text span { color: var(--orange); }
+    .footer-links { display: flex; gap: 16px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 16px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+    .pulse { animation: pulse 2s infinite; }
+
+    /* ── DEMO TYPEWRITER ── */
+    .typewriter { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--orange); animation: typing 2.5s steps(40) forwards, blink 0.8s step-end infinite; }
+    @keyframes typing { from { width:0; } to { width:100%; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">
+    <span class="logo-icon">📐</span>
+    <span class="logo-text">Devis<span>io</span></span>
+  </a>
+  <a href="/auth" class="nav-cta">Essai gratuit →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ Conforme aux 15 mentions légales obligatoires</div>
+  <h1>Vos devis en <em>30 secondes</em>, pas en 30 minutes</h1>
+  <p class="hero-sub">Décrivez le chantier, l'IA génère un devis professionnel. Vous corrigez ce qui ne va pas. Vous envoyez. C'est tout.</p>
+  <div class="hero-actions">
+    <a href="/auth" class="btn-primary">🚀 Essayer gratuitement — 14 jours</a>
+    <a href="#demo" class="btn-secondary">Voir comment ça marche</a>
+  </div>
+  <div class="hero-trust">
+    <div class="trust-item">✅ Sans carte bancaire</div>
+    <div class="trust-item">✅ 18 métiers supportés</div>
+    <div class="trust-item">✅ PDF légalement conforme</div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-section" id="demo">
+  <div class="demo-card">
+    <div class="demo-header">
+      <span class="demo-header-title">✨ Devis Plombier — TVA 10%</span>
+      <span class="demo-badge">IA</span>
+    </div>
+    <div class="demo-body">
+      <div class="demo-input">
+        "Remplacement chauffe-eau thermodynamique 200L au 3e étage, dépose de l'ancien cumulus électrique, raccordements complets..."
+      </div>
+      <div style="font-size:11px;color:var(--textSoft);font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;">Devis généré :</div>
+      <div class="demo-line"><span class="demo-line-label">Dépose et évacuation cumulus existant</span><span class="demo-line-price">120 €</span></div>
+      <div class="demo-line"><span class="demo-line-label">Fourniture chauffe-eau thermodynamique 200L</span><span class="demo-line-price">890 €</span></div>
+      <div class="demo-line"><span class="demo-line-label">Pose et raccordements hydrauliques</span><span class="demo-line-price">280 €</span></div>
+      <div class="demo-line"><span class="demo-line-label">Raccordement électrique 20A</span><span class="demo-line-price">95 €</span></div>
+      <div class="demo-line"><span class="demo-line-label">Mise en service et réglages</span><span class="demo-line-price">45 €</span></div>
+      <div class="demo-total">
+        <span class="demo-total-label">Total TTC</span>
+        <span class="demo-total-price">1 573 €</span>
+      </div>
+      <div class="demo-actions">
+        <button class="demo-btn demo-btn-pdf">📥 PDF légal</button>
+        <button class="demo-btn demo-btn-send">📧 Envoyer au client</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTIERS -->
+<section class="metiers-section">
+  <div class="section-label">18 métiers supportés</div>
+  <div class="metiers-grid">
+    <div class="metier-chip">🔧 Plombier</div>
+    <div class="metier-chip">⚡ Électricien</div>
+    <div class="metier-chip">🎨 Peintre</div>
+    <div class="metier-chip">🧱 Maçon</div>
+    <div class="metier-chip">🪵 Menuisier</div>
+    <div class="metier-chip">🏗️ Charpentier</div>
+    <div class="metier-chip">🟦 Carreleur</div>
+    <div class="metier-chip">🏠 Couvreur</div>
+    <div class="metier-chip">🔥 Chauffagiste</div>
+    <div class="metier-chip">🔑 Serrurier</div>
+    <div class="metier-chip">🌿 Paysagiste</div>
+    <div class="metier-chip">❄️ Climaticien</div>
+    <div class="metier-chip">🧊 Isolation</div>
+    <div class="metier-chip">🪟 Vitrier</div>
+    <div class="metier-chip">🍳 Cuisiniste</div>
+    <div class="metier-chip">+ 3 autres</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="section-label">Pourquoi Devios</div>
+  <h2 class="features-title">Tout ce qu'un artisan <span>a vraiment besoin</span></h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">✨</div>
+      <div class="feature-title">Devis généré par l'IA en 30 secondes</div>
+      <div class="feature-desc">Décrivez le chantier en langage naturel. L'IA génère un devis complet avec les bonnes unités (m², ml, heure) et les tarifs réalistes du marché français.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✏️</div>
+      <div class="feature-title">Modifiable à votre guise</div>
+      <div class="feature-desc">L'IA se trompe parfois. Tapez sur n'importe quelle ligne pour modifier description, quantité ou prix. Les totaux se recalculent instantanément.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚖️</div>
+      <div class="feature-title">Conforme à la loi française 2026</div>
+      <div class="feature-desc">Les 15 mentions obligatoires, l'assurance décennale, les 3 taux de TVA (5,5% / 10% / 20%), les conditions de paiement et les zones de signature — tout est inclus automatiquement.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📧</div>
+      <div class="feature-title">Envoi direct au client</div>
+      <div class="feature-desc">Générez le PDF et envoyez-le par email en un tap. Le client reçoit un email professionnel avec le devis en pièce jointe.</div>
+    </div>
+  </div>
+</section>
+
+<!-- LÉGAL -->
+<section class="legal-section">
+  <div class="section-label">Conformité légale</div>
+  <h2 class="legal-title">Protégez-vous avec des devis conformes</h2>
+  <p class="legal-sub">70% des devis d'artisans comportent au moins une mention obligatoire manquante. Devios les ajoute toutes automatiquement.</p>
+  <div class="legal-grid">
+    <div class="legal-item"><span class="legal-check">✅</span><span class="legal-text"><strong>SIRET, forme juridique, adresse</strong> — identité complète de votre entreprise</span></div>
+    <div class="legal-item"><span class="legal-check">✅</span><span class="legal-text"><strong>Assurance décennale</strong> — assureur, n° de police et zone géographique</span></div>
+    <div class="legal-item"><span class="legal-check">✅</span><span class="legal-text"><strong>Taux de TVA adapté</strong> — 5,5% rénovation énergétique, 10% rénovation, 20% neuf</span></div>
+    <div class="legal-item"><span class="legal-check">✅</span><span class="legal-text"><strong>Conditions de paiement</strong> — acompte 30%, pénalités de retard, indemnité 40€</span></div>
+    <div class="legal-item"><span class="legal-check">✅</span><span class="legal-text"><strong>Zone de signature client</strong> — mention "lu et accepté, bon pour accord" incluse</span></div>
+    <div class="legal-item"><span class="legal-check">✅</span><span class="legal-text"><strong>Numérotation automatique</strong> — DEV-2026-001, DEV-2026-002... pour tracer vos devis</span></div>
+  </div>
+  <div class="legal-amende">
+    <span style="font-size:18px;">⚠️</span>
+    <div class="legal-amende-text"><strong>Un devis incomplet peut coûter jusqu'à 3 000€ d'amende</strong> (15 000€ pour une société). Devios génère des devis conformes à l'arrêté du 24 janvier 2017.</div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+<section class="temoignages-section">
+  <h2 class="temoignages-title">Ce qu'en disent les artisans</h2>
+  <div class="temoignages-grid">
+    <div class="temoignage-card">
+      <div class="temoignage-stars">★★★★★</div>
+      <div class="temoignage-text">"Avant je passais 45 minutes sur chaque devis avec Excel. Maintenant je décris le chantier sur mon téléphone, je corrige deux ou trois trucs et c'est envoyé. Je gagne facilement 3 heures par semaine."</div>
+      <div class="temoignage-author">
+        <div class="temoignage-avatar">JP</div>
+        <div>
+          <div class="temoignage-name">Jean-Pierre M.</div>
+          <div class="temoignage-job">Plombier · Lyon · 12 ans d'expérience</div>
+        </div>
+      </div>
+    </div>
+    <div class="temoignage-card">
+      <div class="temoignage-stars">★★★★★</div>
+      <div class="temoignage-text">"J'avais peur de ne pas savoir utiliser, mais c'est vraiment simple. Et le devis est beau, professionnel. Mes clients me disent que ça inspire confiance. J'ai eu deux nouveaux chantiers grâce à ça."</div>
+      <div class="temoignage-author">
+        <div class="temoignage-avatar">SB</div>
+        <div>
+          <div class="temoignage-name">Sébastien B.</div>
+          <div class="temoignage-job">Peintre · Bordeaux · Auto-entrepreneur</div>
+        </div>
+      </div>
+    </div>
+    <div class="temoignage-card">
+      <div class="temoignage-stars">★★★★★</div>
+      <div class="temoignage-text">"Ce qui m'a convaincu c'est les mentions légales automatiques. Mon comptable m'avait dit que mes anciens devis n'étaient pas conformes. Maintenant je suis tranquille."</div>
+      <div class="temoignage-author">
+        <div class="temoignage-avatar">MR</div>
+        <div>
+          <div class="temoignage-name">Marc R.</div>
+          <div class="temoignage-job">Électricien · Paris · SARL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <h2 class="pricing-title">Tarifs simples et transparents</h2>
+  <p class="pricing-sub">14 jours d'essai gratuit · Sans engagement · Résiliable en 1 clic</p>
+  <div class="pricing-grid">
+
+    <div class="plan-card">
+      <div class="plan-body">
+        <div class="plan-name">Gratuit</div>
+        <div class="plan-desc">Pour tester Devios sans risque</div>
+        <div class="plan-price-row">
+          <div class="plan-price">0€</div>
+        </div>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>3 devis IA par mois</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>PDF téléchargeable</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Mentions légales incluses</div>
+        </div>
+        <a href="/auth" class="plan-cta secondary">Commencer gratuitement</a>
+      </div>
+    </div>
+
+    <div class="plan-card featured">
+      <div class="plan-header-badge">🔥 Le plus populaire</div>
+      <div class="plan-body">
+        <div class="plan-name">Solo</div>
+        <div class="plan-desc">Pour l'artisan indépendant</div>
+        <div class="plan-price-row">
+          <div class="plan-price orange">19€</div>
+          <div class="plan-price-unit">/ mois HT</div>
+        </div>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Devis IA <strong>illimités</strong></div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>PDF 100% conforme légalement</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Envoi email + PDF au client</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Édition complète des devis</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Profil artisan + assurance décennale</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>14 jours d'essai gratuit</div>
+        </div>
+        <a href="/auth" class="plan-cta primary">Démarrer l'essai gratuit →</a>
+      </div>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-body">
+        <div class="plan-name">Pro</div>
+        <div class="plan-desc">Pour développer votre activité</div>
+        <div class="plan-price-row">
+          <div class="plan-price">39€</div>
+          <div class="plan-price-unit">/ mois HT</div>
+        </div>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Tout Solo +</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Relances automatiques clients</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Statistiques CA et taux d'acceptation</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Multi-utilisateurs (2 comptes)</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span>Support prioritaire</div>
+        </div>
+        <a href="/auth" class="plan-cta secondary">Démarrer l'essai gratuit</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <h2 class="faq-title">Questions fréquentes</h2>
+  <div class="faq-list">
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Faut-il être informaticien pour utiliser Devios ? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Non. Si vous savez envoyer un SMS, vous savez utiliser Devios. Vous décrivez le travail comme vous l'expliqueriez à votre client, et l'IA fait le reste.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">L'IA se trompe parfois sur les prix — que faire ? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Chaque ligne est modifiable en un tap. Vous changez le prix unitaire ou la quantité, et les totaux se recalculent automatiquement. L'IA propose, vous décidez.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Mes devis sont-ils vraiment légalement conformes ? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Oui. Le PDF inclut les 15 mentions obligatoires (SIRET, assurance décennale, TVA adaptée, conditions de paiement, zone de signature), conformément à l'arrêté du 24 janvier 2017 et au Code de la consommation.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Puis-je annuler à tout moment ? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Oui, sans frais ni pénalité. Vous gardez accès jusqu'à la fin de la période payée. Aucun engagement minimum.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Mes données sont-elles sécurisées ? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Vos données sont hébergées en Europe chez Supabase (OVH). Les paiements sont gérés par Stripe, certifié PCI DSS niveau 1. Nous ne partageons jamais vos données.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Quel taux de TVA choisir ? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Devios vous propose les 3 taux avec une explication : 5,5% pour la rénovation énergétique, 10% pour la rénovation d'un logement de plus de 2 ans, 20% pour le neuf. Si vous êtes auto-entrepreneur en franchise, choisissez 0%.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <h2 class="cta-title">Votre prochain devis en <span>30 secondes</span></h2>
+  <p class="cta-sub">Rejoignez les artisans qui ont arrêté de perdre du temps sur leurs devis. Essai gratuit 14 jours, sans carte bancaire.</p>
+  <a href="/auth" class="cta-btn">🚀 Commencer maintenant — c'est gratuit</a>
+  <div class="cta-note">Aucune carte bancaire requise · Résiliable à tout moment · Données hébergées en France</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo-text" style="font-family:'Plus Jakarta Sans',sans-serif;">
+    📐 Devis<span>io</span>
+  </div>
+  <div class="footer-links">
+    <a href="/pricing">Tarifs</a>
+    <a href="/auth">Connexion</a>
+    <a href="mailto:contact@devios.fr">Contact</a>
+    <a href="/mentions-legales">Mentions légales</a>
+    <a href="/cgv">CGV</a>
+    <a href="/confidentialite">Confidentialité</a>
+  </div>
+  <div class="footer-copy">© 2026 Devios · <a href="/cgu" style="color:inherit">CGU</a> · Fait avec ❤️ pour les artisans français</div>
+</footer>
+
+</body>
+</html>
